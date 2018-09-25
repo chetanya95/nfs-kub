@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: google-test
+spec:
+  template:
+    spec:
+      containers:
+      - name: google-testng
+        image: gcr.io/infosys-poc/google-testng
+        imagePullPolicy: Always
+        volumeMounts:
+          # name must match the volume name below
+          - name: nfs
+            mountPath: "/data"
+      restartPolicy: Never
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: nfs
+  backoffLimit: 4
